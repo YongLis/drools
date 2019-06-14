@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+	<classPathEntry
+		location="D:\ipaylinks\tools\dep_tools\apache-maven-3.2.5\repository\mysql\mysql-connector-java\6.0.6\mysql-connector-java-6.0.6.jar" />
+	<context id="MySqlTables" targetRuntime="MyBatis3">
+
+		<!--数据库链接地址账号密码 -->
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://172.168.1.77:3306/test?useUnicode=true&amp;characterEncoding=utf8&amp;zeroDateTimeBehavior=convertToNull"
+			userId="bigdata" password="bigdata">
+			<property name="remarksReporting" value="true"></property>
+		</jdbcConnection>
+		<!--生成Model类存放位置 -->
+		<javaModelGenerator targetPackage="com.sh.drools.dal.model"
+			targetProject="src/main/java">
+			<property name="enableSubPackages" value="true" />
+			<property name="trimStrings" value="true" />
+			<!--<property name="rootClass" value="com.ipaylinks.repo.BaseEntity"/> -->
+		</javaModelGenerator>
+		<!--生成映射文件存放位置 -->
+		<sqlMapGenerator targetPackage="mybatis"
+			targetProject="src/main/resources">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+		<!--生成Dao类存放位置 -->
+		<javaClientGenerator type="XMLMAPPER"
+			targetPackage="com.sh.drools.dal.mapper" targetProject="src/main/java">
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
+		<!--生成对应表及类名 -->
+		<table tableName="crm_role" domainObjectName="Role" enableCountByExample="false"
+			   enableUpdateByExample="false" enableDeleteByExample="false"
+			   enableSelectByExample="false" selectByExampleQueryId="false">
+		</table>
+		<table tableName="crm_attachment" domainObjectName="Attachment" enableCountByExample="false"
+			   enableUpdateByExample="false" enableDeleteByExample="false"
+			   enableSelectByExample="false" selectByExampleQueryId="false">
+		</table>
+		<table tableName="crm_member" domainObjectName="Member" enableCountByExample="false"
+			   enableUpdateByExample="false" enableDeleteByExample="false"
+			   enableSelectByExample="false" selectByExampleQueryId="false">
+		</table>
+		<table tableName="crm_member_role" domainObjectName="MemberRole" enableCountByExample="false"
+			   enableUpdateByExample="false" enableDeleteByExample="false"
+			   enableSelectByExample="false" selectByExampleQueryId="false">
+		</table>
+		<table tableName="crm_resource" domainObjectName="Resource" enableCountByExample="false"
+			   enableUpdateByExample="false" enableDeleteByExample="false"
+			   enableSelectByExample="false" selectByExampleQueryId="false">
+		</table>
+		<table tableName="crm_role_resource" domainObjectName="RoleResource" enableCountByExample="false"
+			   enableUpdateByExample="false" enableDeleteByExample="false"
+			   enableSelectByExample="false" selectByExampleQueryId="false">
+		</table>
+
+	</context>
+</generatorConfiguration>
