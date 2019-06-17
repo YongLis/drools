@@ -15,19 +15,19 @@
 		</jdbcConnection>
 		<!--生成Model类存放位置 -->
 		<javaModelGenerator targetPackage="com.sh.drools.dal.model"
-			targetProject="src/main/java">
+							targetProject="src/main/java">
 			<property name="enableSubPackages" value="true" />
 			<property name="trimStrings" value="true" />
 			<!--<property name="rootClass" value="com.ipaylinks.repo.BaseEntity"/> -->
 		</javaModelGenerator>
 		<!--生成映射文件存放位置 -->
 		<sqlMapGenerator targetPackage="mybatis"
-			targetProject="src/main/resources">
+						 targetProject="src/main/resources">
 			<property name="enableSubPackages" value="true" />
 		</sqlMapGenerator>
 		<!--生成Dao类存放位置 -->
 		<javaClientGenerator type="XMLMAPPER"
-			targetPackage="com.sh.drools.dal.mapper" targetProject="src/main/java">
+							 targetPackage="com.sh.drools.dal.mapper" targetProject="src/main/java">
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
 		<!--生成对应表及类名 -->
@@ -55,6 +55,9 @@
 			   enableUpdateByExample="false" enableDeleteByExample="false"
 			   enableSelectByExample="false" selectByExampleQueryId="false">
 		</table>
-
+		<table tableName="rule_info" domainObjectName="RuleInfo" enableCountByExample="false"
+			   enableUpdateByExample="false" enableDeleteByExample="false"
+			   enableSelectByExample="false" selectByExampleQueryId="false">
+		</table>
 	</context>
 </generatorConfiguration>

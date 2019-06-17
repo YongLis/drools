@@ -1,6 +1,5 @@
 package com.sh.drools.service;
 
-import com.sh.drools.enity.RuleInfo;
 import org.kie.api.runtime.KieSession;
 
 import java.util.List;

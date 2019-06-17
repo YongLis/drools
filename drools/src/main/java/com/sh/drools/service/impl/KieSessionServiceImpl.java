@@ -1,6 +1,5 @@
 package com.sh.drools.service.impl;
 
-import com.sh.drools.enity.RuleInfo;
 import com.sh.drools.enity.RuleTemplate;
 import com.sh.drools.service.KieSessionService;
 import org.kie.api.io.ResourceType;
