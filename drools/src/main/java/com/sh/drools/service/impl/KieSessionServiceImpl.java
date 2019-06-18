@@ -1,7 +1,10 @@
 package com.sh.drools.service.impl;
 
+import com.sh.drools.common.RuleStateEnum;
+import com.sh.drools.dal.model.RuleInfoWithBLOBs;
 import com.sh.drools.enity.RuleTemplate;
 import com.sh.drools.service.KieSessionService;
+import com.sh.drools.service.RuleInfoService;
 import org.kie.api.io.ResourceType;
 import org.kie.api.runtime.KieSession;
 import org.kie.internal.KnowledgeBase;
@@ -11,13 +14,17 @@ import org.kie.internal.builder.KnowledgeBuilderError;
 import org.kie.internal.builder.KnowledgeBuilderErrors;
 import org.kie.internal.builder.KnowledgeBuilderFactory;
 import org.kie.internal.io.ResourceFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service("kieSessionService")
 public class KieSessionServiceImpl implements KieSessionService {
-
 	private KnowledgeBuilder knowledgeBuilder = null;
+	@Autowired
+	private RuleInfoService ruleInfoService;
 
 	@SuppressWarnings("deprecation")
 	public KieSession getStatefulKnowledgeSession() throws Exception {
@@ -47,26 +54,27 @@ public class KieSessionServiceImpl implements KieSessionService {
 		return (KieSession) base.newStatelessKnowledgeSession();
 	}
 
-	private void loadRule(List<RuleInfo> ruleList) throws Exception {
+	private void loadRule(List<RuleInfoWithBLOBs> ruleList) throws Exception {
+//		List<RuleInfoWithBLOBs> ruleList = ruleInfoService.findByStatus(RuleStateEnum.WAIT.getCode());
 		if (ruleList != null && ruleList.size() > 0) {
-			for (RuleInfo ruleInfo : ruleList) {
+			for (RuleInfoWithBLOBs ruleInfo : ruleList) {
 				knowledgeBuilder.add(ResourceFactory
-						.newByteArrayResource(RuleTemplate.getRule(ruleInfo)
+						.newByteArrayResource(ruleInfoService.parseRule(ruleInfo)
 								.getBytes("UTF-8")), ResourceType.DRL);
 			}
 		}
 
 	}
 
-	public void updateRule(List<RuleInfo> ruleList) throws Exception {
+	public void updateRule(List<RuleInfoWithBLOBs> ruleList) throws Exception {
 		removeRule(ruleList);
 		loadRule(ruleList);
 	}
 
 	@SuppressWarnings("deprecation")
-	public void removeRule(List<RuleInfo> ruleList) throws Exception {
+	public void removeRule(List<RuleInfoWithBLOBs> ruleList) throws Exception {
 		if (ruleList != null && ruleList.size() > 0) {
-			for (RuleInfo ruleInfo : ruleList) {
+			for (RuleInfoWithBLOBs ruleInfo : ruleList) {
 				knowledgeBuilder.newKnowledgeBase().removeRule(RuleTemplate.RULE_PACKAGE, ruleInfo.getRuleId());
 			}
 		}
@@ -75,13 +83,7 @@ public class KieSessionServiceImpl implements KieSessionService {
 	public void init() throws Exception {
 		knowledgeBuilder = KnowledgeBuilderFactory
 				.newKnowledgeBuilder();
-		List<RuleInfo> ruleList = new ArrayList<RuleInfo>();
-		
-		RuleInfo ruleInfo = new RuleInfo();
-		ruleInfo.setRuleId("rule01");
-		ruleInfo.setRuleCondition("body.age>65");
-		ruleInfo.setRuleAction("System.out.println(\"rule01执行\")");
-		ruleList.add(ruleInfo);
+		List<RuleInfoWithBLOBs> ruleList = ruleInfoService.findByStatus(RuleStateEnum.WAIT.getCode());
 		loadRule(ruleList);
 	}
 

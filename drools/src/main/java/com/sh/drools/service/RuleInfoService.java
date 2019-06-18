@@ -20,7 +20,7 @@ public interface RuleInfoService {
     public void deadRule(String ruleId) throws Exception;
 
     // 规则解析
-    public String parseRule(String ruleId) throws Exception;
+    public String parseRule(RuleInfoWithBLOBs ruleInfo) throws Exception;
 
     public RuleInfoWithBLOBs findByRuleId(String ruleId);
 

@@ -42,8 +42,7 @@ public class RuleInfoServiceImpl implements RuleInfoService {
     }
 
     @Override
-    public String parseRule(String ruleId) throws Exception {
-        RuleInfoWithBLOBs ruleInfo = findByRuleId(ruleId);
+    public String parseRule(RuleInfoWithBLOBs ruleInfo) throws Exception {
         String result = null;
         if(ruleInfo != null){
             String ruleTemplate = RuleTemplate.getRuleTemplate();

@@ -1,5 +1,6 @@
 package com.sh.drools.service;
 
+import com.sh.drools.dal.model.RuleInfoWithBLOBs;
 import org.kie.api.runtime.KieSession;
 
 import java.util.List;
@@ -32,11 +33,11 @@ public interface KieSessionService {
      * 更新规则
      */
 
-    public void updateRule(List<RuleInfo> ruleList) throws Exception;
+    public void updateRule(List<RuleInfoWithBLOBs> ruleList) throws Exception;
 
     /**
      * 移除规则
      */
 
-    public void removeRule(List<RuleInfo> ruleList) throws Exception;
+    public void removeRule(List<RuleInfoWithBLOBs> ruleList) throws Exception;
 }
