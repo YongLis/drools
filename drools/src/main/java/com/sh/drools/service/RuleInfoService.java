@@ -1,5 +1,9 @@
 package com.sh.drools.service;
 
+import com.sh.drools.dal.model.RuleInfoWithBLOBs;
+
+import java.util.List;
+
 /**
  * @Auther: liyong
  * @Date:2019/6/17 11:37
@@ -19,4 +23,6 @@ public interface RuleInfoService {
     public String parseRule(String ruleId) throws Exception;
 
     public RuleInfoWithBLOBs findByRuleId(String ruleId);
+
+    public List<RuleInfoWithBLOBs> findByStatus(String status);
 }

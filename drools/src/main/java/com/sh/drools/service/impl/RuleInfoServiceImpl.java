@@ -1,6 +1,8 @@
 package com.sh.drools.service.impl;
 
 import com.sh.drools.common.RuleStateEnum;
+import com.sh.drools.dal.mapper.RuleInfoMapper;
+import com.sh.drools.dal.model.RuleInfoWithBLOBs;
 import com.sh.drools.enity.RuleTemplate;
 import com.sh.drools.service.RuleInfoService;
 import org.apache.commons.lang3.StringUtils;
@@ -8,6 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @Auther: liyong
@@ -43,7 +47,7 @@ public class RuleInfoServiceImpl implements RuleInfoService {
         String result = null;
         if(ruleInfo != null){
             String ruleTemplate = RuleTemplate.getRuleTemplate();
-            if(StringUtils.isEmpty(ruleInfo.get())){
+            if(StringUtils.isEmpty(ruleInfo.getRuleImport())){
                 ruleInfo.setRuleImport("");
             }
 
@@ -55,12 +59,10 @@ public class RuleInfoServiceImpl implements RuleInfoService {
                 ruleInfo.setRuleAction("");;
             }
 
-            String rule1 = ruleTemplate.replace(RULE_IMPORT, ruleInfo.getRuleImport());
-            String rule2 = rule1.replace(RULE_ID, ruleInfo.getRuleId());
-            String rule3 = rule2.replace(RULE_CONDITION, ruleInfo.getRuleCondition());
-            String rule4 = rule3.replace(RULE_ACTION, ruleInfo.getRuleAction());
-
-            return rule4;
+            String rule1 = ruleTemplate.replace(RuleTemplate.RULE_IMPORT, ruleInfo.getRuleImport());
+            String rule2 = rule1.replace(RuleTemplate.RULE_ID, ruleInfo.getRuleId());
+            String rule3 = rule2.replace(RuleTemplate.RULE_CONDITION, ruleInfo.getRuleCondition());
+            result = rule3.replace(RuleTemplate.RULE_ACTION, ruleInfo.getRuleAction());
         }
         return result;
     }
@@ -68,5 +70,10 @@ public class RuleInfoServiceImpl implements RuleInfoService {
     @Override
     public RuleInfoWithBLOBs findByRuleId(String ruleId) {
         return ruleInfoMapper.selectByPrimaryKey(ruleId);
+    }
+
+    @Override
+    public List<RuleInfoWithBLOBs> findByStatus(String status) {
+        return ruleInfoMapper.selectByStatus(status);
     }
 }

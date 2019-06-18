@@ -31,31 +31,7 @@
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
 		<!--生成对应表及类名 -->
-		<table tableName="crm_role" domainObjectName="Role" enableCountByExample="false"
-			   enableUpdateByExample="false" enableDeleteByExample="false"
-			   enableSelectByExample="false" selectByExampleQueryId="false">
-		</table>
-		<table tableName="crm_attachment" domainObjectName="Attachment" enableCountByExample="false"
-			   enableUpdateByExample="false" enableDeleteByExample="false"
-			   enableSelectByExample="false" selectByExampleQueryId="false">
-		</table>
-		<table tableName="crm_member" domainObjectName="Member" enableCountByExample="false"
-			   enableUpdateByExample="false" enableDeleteByExample="false"
-			   enableSelectByExample="false" selectByExampleQueryId="false">
-		</table>
-		<table tableName="crm_member_role" domainObjectName="MemberRole" enableCountByExample="false"
-			   enableUpdateByExample="false" enableDeleteByExample="false"
-			   enableSelectByExample="false" selectByExampleQueryId="false">
-		</table>
-		<table tableName="crm_resource" domainObjectName="Resource" enableCountByExample="false"
-			   enableUpdateByExample="false" enableDeleteByExample="false"
-			   enableSelectByExample="false" selectByExampleQueryId="false">
-		</table>
-		<table tableName="crm_role_resource" domainObjectName="RoleResource" enableCountByExample="false"
-			   enableUpdateByExample="false" enableDeleteByExample="false"
-			   enableSelectByExample="false" selectByExampleQueryId="false">
-		</table>
-		<table tableName="rule_info" domainObjectName="RuleInfo" enableCountByExample="false"
+		<table tableName="rule_op_info" domainObjectName="RuleOpInfo" enableCountByExample="false"
 			   enableUpdateByExample="false" enableDeleteByExample="false"
 			   enableSelectByExample="false" selectByExampleQueryId="false">
 		</table>
