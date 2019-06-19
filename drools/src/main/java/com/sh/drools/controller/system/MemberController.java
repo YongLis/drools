@@ -4,18 +4,16 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sh.drools.common.AjaxResult;
 import com.sh.drools.common.DataGrid;
-import com.sh.drools.common.MySpecification;
-import com.sh.drools.dal.crm.MemberDao;
-import com.sh.drools.dal.crm.RoleDao;
+import com.sh.drools.common.PageQueryRequest;
 import com.sh.drools.dal.model.Member;
 import com.sh.drools.dal.model.Role;
+import com.sh.drools.service.MemberService;
+import com.sh.drools.service.RoleService;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -23,7 +21,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,14 +33,12 @@ import java.util.List;
 @RequestMapping("/system/member")
 @Transactional(readOnly = true)
 public class MemberController {
-
-    Logger logger = LoggerFactory.getLogger(RoleController.class);
-
-    @Autowired
-    MemberDao memberDao;
+    private static Logger logger = LoggerFactory.getLogger(RoleController.class);
 
     @Autowired
-    RoleDao roleDao;
+    MemberService memberService;
+    @Autowired
+    RoleService roleService;
 
     /**
      * 超级管理员id
@@ -59,23 +54,22 @@ public class MemberController {
     @RequestMapping("/list")
     @ResponseBody
     public DataGrid<Member> list(int page, int rows, String userName, String realName, String telephone) {
-        PageRequest pr = new PageRequest(page - 1, rows);
-
-        //使用了自定义的复杂查询，这就比原生的Specification的语法使用流畅多了
-        Page pageData = memberDao.findAll(new MySpecification<Member>().and(
-                MySpecification.Cnd.like("userName", userName),
-                MySpecification.Cnd.like("realName", realName),
-                MySpecification.Cnd.eq("telephone", telephone)
-        ).asc("id"), pr);
-
-        return new DataGrid<>(pageData);
+        PageQueryRequest<Member> request = new PageQueryRequest<>();
+        request.setPageNumber(page);
+        request.setPageSize(rows);
+        Member member = new Member();
+        member.setUserName(userName);
+        member.setRealName(realName);
+        member.setTelephone(telephone);
+        request.setT(member);
+        return new DataGrid<Member>(memberService.pageQuery(request).getList());
     }
 
     @RequestMapping("/form")
-    public void form(Long id, Model model) {
-        if (id != null) {
+    public void form(int id, Model model) {
+        if (id != 0) {
             ObjectMapper mapper = new ObjectMapper();
-            Member member = memberDao.findOne(id);
+            Member member = memberService.findOne(id);
             try {
                 model.addAttribute("member", mapper.writeValueAsString(member));
             } catch (JsonProcessingException e) {
@@ -87,19 +81,19 @@ public class MemberController {
     @RequestMapping("/check")
     @ResponseBody
     public boolean check(String userName) {
-        return memberDao.countByUserName(userName) == 0;
+        return memberService.countByUserName(userName) == 0;
     }
 
     @RequestMapping("/roles")
     @ResponseBody
     public List<Role> roles() {
-        return roleDao.findByStatus(true);
+        return roleService.findByStatus(true);
     }
 
     @RequestMapping({"/save", "/update"})
     @Transactional
     @ResponseBody
-    public AjaxResult save(@Valid Member member, Long[] roles, BindingResult br) {
+    public AjaxResult save(Member member, Integer[] roles, BindingResult br) {
         if (br.hasErrors()) {
             logger.error("对象校验失败：" + br.getAllErrors());
             return new AjaxResult(false).setData(br.getAllErrors());
@@ -108,7 +102,7 @@ public class MemberController {
             try{
                 if (member.getId() != null) {
                     // 不在这里更新角色和密码
-                    Member orig = memberDao.findOne(Long.valueOf(member.getId()));
+                    Member orig = memberService.findOne(member.getId());
                     // 理论上这里一定是要找得到对象的
                     if (orig != null) {
                         member.setPassword(orig.getPassword());
@@ -121,15 +115,15 @@ public class MemberController {
                 //处理角色的关联
                 if (roles != null && roles.length > 1) {
                     List<Role> rolesList = new ArrayList<>();
-                    for (Long rid : roles) {
+                    for (Integer rid : roles) {
                         if (rid != null) {
-                            rolesList.add(roleDao.findOne(rid));
+                            rolesList.add(roleService.findOne(rid));
                         }
                     }
                     member.setRoles(rolesList);
                 }
     
-                memberDao.save(member);
+                memberService.save(member);
                 result = true;
             }catch(Exception e){
                 logger.error("账户{}更新异常",member.getRealName() , e);
@@ -148,20 +142,20 @@ public class MemberController {
     @RequestMapping("/password/reset")
     @Transactional
     @ResponseBody
-    public AjaxResult resetPassword(Long id) {
-        Member member = memberDao.findOne(id);
+    public AjaxResult resetPassword(int id) {
+        Member member = memberService.findOne(id);
         member.setPassword(DigestUtils.sha256Hex("0000"));
-        memberDao.save(member);
+        memberService.save(member);
         return new AjaxResult();
     }
 
     @RequestMapping("/delete")
     @Transactional
     @ResponseBody
-    public AjaxResult delete(Long id) {
+    public AjaxResult delete(int id) {
         try {
             if (!superUserId.equals(id)) {
-                memberDao.delete(id);
+                memberService.delete(id);
             } else {
                 return new AjaxResult(false, "管理员不能删除！");
             }

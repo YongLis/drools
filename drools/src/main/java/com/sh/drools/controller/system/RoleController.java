@@ -2,23 +2,19 @@ package com.sh.drools.controller.system;
 
 import com.sh.drools.common.AjaxResult;
 import com.sh.drools.common.DataGrid;
-import com.sh.drools.dal.crm.ResourceDao;
-import com.sh.drools.dal.crm.RoleDao;
 import com.sh.drools.dal.model.Resource;
 import com.sh.drools.dal.model.Role;
 import com.sh.drools.service.ResourceService;
+import com.sh.drools.service.RoleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 
 /**
@@ -34,13 +30,10 @@ public class RoleController {
     Logger logger = LoggerFactory.getLogger(RoleController.class);
 
     @Autowired
-    RoleDao roleDao;
+    RoleService roleService;
 
     @Autowired
     ResourceService resourceService;
-
-    @Autowired
-    ResourceDao resourceDao;
 
     @RequestMapping
     public void index() {
@@ -49,28 +42,28 @@ public class RoleController {
     @RequestMapping("/list")
     @ResponseBody
     public DataGrid<Role> list() {
-        return new DataGrid<>(roleDao.findAll(new Sort(Direction.DESC, "id")));
+        return new DataGrid<>(roleService.findAll());
     }
 
     @RequestMapping({"/save", "/update"})
     @Transactional
     @ResponseBody
-    public Object save(@Valid Role role, BindingResult br) {
+    public Object save(Role role, BindingResult br) {
         if (br.hasErrors()) {
             logger.error("对象校验失败：" + br.getAllErrors());
             return new AjaxResult(false).setData(br.getAllErrors());
         } else {
             role.setResource(null);
-            return roleDao.save(role);
+            return roleService.save(role);
         }
     }
 
     @RequestMapping("/delete")
     @Transactional
     @ResponseBody
-    public AjaxResult delete(Long id) {
+    public AjaxResult delete(int id) {
         try {
-            roleDao.delete(id);
+            roleService.delete(id);
         } catch (Exception e) {
             return new AjaxResult().setMessage(e.getMessage());
         }
@@ -93,18 +86,18 @@ public class RoleController {
     @RequestMapping("/resource/save")
     @Transactional
     @ResponseBody
-    public AjaxResult resourceSave(Long roleId, Long[] resourceId) {
-        Role role = roleDao.findOne(roleId);
+    public AjaxResult resourceSave(Integer roleId, Integer[] resourceId) {
+        Role role = roleService.findOne(roleId);
         if (role != null && resourceId != null && resourceId.length > 0) {
             try {
                 role.setResource(new ArrayList<>());
-                for (Long rid : resourceId) {
+                for (Integer rid : resourceId) {
                     if (rid != null) {
                         // 将资源关联到角色
-                        role.getResource().add(resourceDao.findOne(rid));
+                        role.getResource().add(resourceService.findOne(rid));
                     }
                 }
-                roleDao.save(role);
+                roleService.save(role);
                 return new AjaxResult();
             } catch (Exception e) {
                 logger.error("角色资源关联错误", e);

@@ -1,13 +1,15 @@
 package com.sh.drools.service;
 
 import com.sh.drools.dal.model.Role;
-import org.springframework.data.repository.PagingAndSortingRepository;
-import org.springframework.stereotype.Repository;
-
 import java.util.List;
-
-@Repository
-public interface RoleService extends PagingAndSortingRepository<Role, Long> {
-
+public interface RoleService{
     List<Role> findByStatus(boolean b);
+
+    Role findOne(int id);
+
+    List<Role> findAll();
+
+    Object save(Role role);
+
+    void delete(int id);
 }

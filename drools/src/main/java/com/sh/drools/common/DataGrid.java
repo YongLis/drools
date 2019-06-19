@@ -1,6 +1,6 @@
 package com.sh.drools.common;
 
-import org.springframework.data.domain.Page;
+import com.github.pagehelper.PageInfo;
 
 import java.util.ArrayList;
 
@@ -43,9 +43,9 @@ public final class DataGrid<T> {
         return total;
     }
 
-    public DataGrid(Page<T> page) {
-        this.total = page.getTotalElements();
-        this.rows = page.getContent();
+    public DataGrid(PageInfo<T> page) {
+        this.total = page.getTotal();
+        this.rows = page.getList();
     }
 
     public void setTotal(Long total) {
