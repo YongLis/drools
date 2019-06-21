@@ -19,8 +19,6 @@ import java.util.ArrayList;
 
 /**
  * 角色管理控制器
- *
- * @author gson
  */
 @Controller
 @RequestMapping("/system/role")

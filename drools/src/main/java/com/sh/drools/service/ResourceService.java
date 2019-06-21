@@ -15,7 +15,9 @@ public interface ResourceService{
 
     Resource findOne(int id);
 
-    Object save(@Valid Resource resource);
+    Object save(Resource resource);
 
     void delete(int id);
+
+    List<Resource> findByStatus(boolean b);
 }

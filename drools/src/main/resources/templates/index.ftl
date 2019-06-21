@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>风控后台管理系统</title>
+    <title>XX后台管理系统</title>
     <!-- 导入主题样式文件 -->
     <link rel="stylesheet" href="/static/easyui/themes/gray/easyui.css" />
     <!-- 图标 -->
@@ -81,7 +81,7 @@
         <a class="item" href="/logout"><i class="fa fa-sign-out"></i> 注销</a>
     </div>
     <div style="float: left;font-size: 30px;font-weight: bold;font-family: Ravie;line-height: 30px;height: 30px; background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(rgba(241, 166, 86, 1)), to(rgba(227, 204, 169, 1)));-webkit-background-clip: text;-webkit-text-fill-color: transparent;">
-        <img style="vertical-align:middle;" src="/static/images/ipl_ico.jpg">&nbsp;风控后台管理系统</div>
+        <img style="vertical-align:middle;" src="/static/images/ipl_ico.jpg">&nbsp;XX后台管理系统</div>
 </div>
 <div title="菜单" data-options="region:'west',iconCls:'fa fa-list'" style="width: 200px">
     <div class="easyui-accordion" data-options="fit:true,border:false">
@@ -117,7 +117,7 @@
     <div id="online" class="online">
         当前在线人数：<span v-text="online"></span>
     </div>
-    copyright © 2018-2021 风控后台管理系统</a>
+    copyright © 2018-2021XX后台管理系统</a>
 
     <div id="online_list" class="online-list">
         <div class="online-list-header">

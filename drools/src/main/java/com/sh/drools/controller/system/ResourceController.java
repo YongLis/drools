@@ -19,8 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * 资源管理控制器
- *
- * @author gson
  */
 @Controller
 @RequestMapping("/system/resource")

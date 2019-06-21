@@ -26,8 +26,6 @@ import java.util.List;
 
 /**
  * 用户管理控制器
- *
- * @author gson
  */
 @Controller
 @RequestMapping("/system/member")

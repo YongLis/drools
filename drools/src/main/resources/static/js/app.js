@@ -2,7 +2,6 @@
  * 系统公共，js。理论上只存放公共业务代码。
  */
 $(function () {
-
   //全局ajax设置
   $.ajaxSetup({
     statusCode: {
@@ -17,14 +16,6 @@ $(function () {
       }
     }
   });
-
-  /*center = $("body").layout("panel", "center");
-
-  center.panel('options').onLoad = function () {
-    require([center.panel('options').href.substring(1)], function (model) {
-      model && model(center);
-    });
-  };*/
 
   // 绑定菜单事件
   $(".crm-menu").on('click', 'li', function () {
@@ -152,165 +143,6 @@ $(function () {
       }]
     });
   });
-
-  /**
-   * 聊天部分
-   */
-  /*(function () {
-    var vm = new Vue({
-      el: '#footer',
-      data: {
-        onlineUser: []
-      },
-      computed: {
-        online: function () {
-          return this.onlineUser.length;
-        }
-      },
-      methods: {
-        pushUser: function (user) {
-          this.onlineUser.push(user);
-        },
-        removeUser: function (user) {
-          var index = $("#user" + user.uid).attr('index');
-          this.onlineUser.splice(index, 1);
-        },
-        sendMsg: function (user, uid) {
-          if (user.uid != uid) {
-            $.messager.prompt(filterXSS(user.realName), '请输入消息内容：', function (r) {
-              if (r) {
-                $.post('/im/send', {uid: user.uid, content: r});
-              }
-            });
-          }
-        }
-      }
-    });
-
-    var websocket = null;
-    if ('WebSocket' in window) {
-      websocket = new WebSocket("ws://" + location.host + "/ws/server");
-    }
-    else if ('MozWebSocket' in window) {
-      websocket = new MozWebSocket("ws://" + location.host + "/ws/server");
-    }
-    else {
-      websocket = new SockJS("http://" + location.host + "/sockjs/server");
-    }
-    websocket.onopen = onOpen;
-    websocket.onmessage = onMessage;
-    websocket.onerror = onError;
-
-    function onOpen(openEvt) {
-      $.get("/im/user/list").success(function (rsp) {
-        Vue.set(vm, 'onlineUser', rsp.data);
-      });
-    }
-
-    function onMessage(evt) {
-      var data = JSON.parse(evt.data);
-      switch (data.tag) {
-        case 'online':
-          vm.pushUser(data.data);
-          if (MEMBER.id != data.data.uid) {
-            $.messager.show({
-              title: '上线提示',
-              msg: filterXSS(data.data.realName) + '已上线',
-              timeout: 2000,
-              showType: 'slide'
-            });
-          }
-          break;
-        case 'offline':
-          vm.removeUser(data.data);
-          $.messager.show({
-            title: '下线提示',
-            msg: filterXSS(data.data.realName) + '已下线',
-            timeout: 2000,
-            showType: 'slide'
-          });
-          break;
-        case 'logout':
-          websocket.close();
-          $.messager.alert("系统提醒", "您的账号已经在其他地方登陆！", "info", function () {
-            location.href = '/logout';
-          });
-          break;
-        case 'message':
-          $.messager.show({
-            title: filterXSS(data.data.realName) + '给你发来消息',
-            msg: filterXSS(data.data.message),
-            timeout: 4000,
-            showType: 'slide'
-          });
-          break;
-      }
-    }
-
-    function onError() {
-      alert("网络异常！请刷新！");
-    }
-
-    window.close = function () {
-      if (!websocket.CLOSED)
-        websocket.close();
-    };
-
-    $("#online").on('click', function () {
-      $("#online_list").toggle()
-    });
-
-    $("#online_list").on('click', ".online-list-header .fa-close", function () {
-      $("#online_list").hide();
-    });
-  })();*/
-
-  /**
-   * 扩展一个jq组件，获取一个json格式的表单值
-   * @param ignoreNull 是否排除空值
-   * @returns {*}
-   */
-  (function ($) {
-    $.fn.formToJson = function (ignoreNull) {
-      //默认剔除空值
-      if (typeof ignoreNull === 'undefined') {
-        ignoreNull = true
-      }
-
-      if (this.length <= 1) {
-        return buildJson(this[0]);
-      } else {
-        //多表单的情况
-        var forms = {};
-        this.forEach(function (form, index) {
-          var fName = $(form).attr('name');
-          var key = fName ? fName : 'form' + index;
-          forms[key] = buildJson(form);
-        });
-        return forms;
-      }
-
-      function buildJson(form) {
-        var formData = new FormData(form);
-        var json = {};
-        formData.forEach(function (val, key) {
-          if (!val && ignoreNull) {
-            return
-          }
-          if (json[key]) {
-            if (!$.isArray(json[key])) {
-              json[key] = [json[key]]
-            }
-            json[key].push(val);
-          } else {
-            json[key] = val;
-          }
-        });
-        return json;
-      }
-    };
-  })(jQuery);
-});
 
 
 //获取一个json格式的表单值
@@ -472,25 +304,6 @@ Date.prototype.formatDate = function(format) {
     return format;
 };
 
-/**
- * 增加Easyui标签页
- * @param id
- * @param opts
- * @param refreshIfExists
- * @returns
- */
-/*function addEasyuiTab(opts,refreshIfExists) {
-    var workspace = $('#index_tabs');
-    if ($(workspace).tabs('exists', opts.title)) {
-        if (refreshIfExists) {
-            var tab = $(workspace).tabs('getTab', opts.title);
-            $(workspace).tabs('update', { tab : tab, options : { href : opts.href } });
-        }
-        $(workspace).tabs('select', opts.title);
-    } else {
-        $(workspace).tabs('add', opts);
-    }
-}*/
 var tabIndex = 1;
 function addEasyuiTab(opts,refreshIfExists) {
     var workspace = $('#index_tabs');

@@ -3,14 +3,14 @@
 <html>
 <head>
   <meta  charset="UTF-8" />
-  <title>风控后台管理系统</title>
+  <title>XX后台管理系统</title>
   <base id="base" href="${base}">
   <link rel="stylesheet" href="${base}/static/css/login.css" />
   <link rel="stylesheet" href="${base}/static/font-awesome/css/font-awesome.min.css" />
 </head>
 <body>
 <div class="logo_box">
-  <h1>风控后台管理系统</h1>
+  <h1>XX后台管理系统</h1>
   <form action="login" method="post" autocomplete="off">
     <div class="input_outer">
       <i class="fa fa-user-o u_user"></i>
@@ -22,7 +22,6 @@
     </div>
     <div class="mb2">
       <button class="act-but submit" style="color: #FFFFFF">登录</button>
-      <#--<div class="actions"><a href="/reg">注册</a></div>-->
     </div>
   <#if error??>
     <div style="text-align:center;padding: 10px;">${error}</div>

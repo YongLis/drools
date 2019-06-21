@@ -13,4 +13,5 @@ public interface AttachmentService {
 
     List<Attachment> findByFilePathIsNotAndMemberAndType(String filePath, Member member, AttachmentType type);
 
+    void clearAvatar(Member smember);
 }

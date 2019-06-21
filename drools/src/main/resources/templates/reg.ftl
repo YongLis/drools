@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>风控后台管理系统注册</title>
+  <title>XX后台管理系统注册</title>
   <link rel="stylesheet" href="/static/css/login.css">
   <link rel="stylesheet" href="/static/font-awesome/css/font-awesome.min.css">
 </head>

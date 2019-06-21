@@ -66,6 +66,11 @@ public class ResourceServiceImpl implements ResourceService {
         resourceMapper.deleteByPrimaryKey(id);
     }
 
+    @Override
+    public List<Resource> findByStatus(boolean b) {
+        return resourceMapper.findAll();
+    }
+
     private void buildTree(Iterable<Resource> root, Boolean status) {
         root.forEach(t -> {
             Iterable<Resource> children;

@@ -1,7 +1,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>风控后台管理系统</title>
+    <title>XX后台管理系统</title>
     <!-- 导入主题样式文件 -->
 <#--    <link rel="stylesheet" href="/static/easyui/themes/gray/easyui.css" />-->
     <link rel="stylesheet" href="/static/easyui/themes/material/easyui.css" />
