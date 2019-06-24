@@ -37,7 +37,7 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 /**
  * 系统的入口控制器，入口控制器里面的请求，理论上都受权限控制
  */
-//@Controller
+@Controller
 public class AppController {
     Logger logger = LoggerFactory.getLogger(AppController.class);
 
