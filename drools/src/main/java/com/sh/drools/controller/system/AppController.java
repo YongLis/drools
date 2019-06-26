@@ -56,10 +56,13 @@ public class AppController {
     @Value("${crm.system.super-user-id}")
     Integer superUserId;
 
-//    @RequestMapping("/")
-//    public String index() {
-//        return "index";
-//    }
+    @RequestMapping("/")
+    public String index(HttpSession session) {
+        if(session.getAttribute(Constants.SESSION_MEMBER_KEY) == null){
+            return "redirect:/login";
+        }
+        return "index";
+    }
 
     @RequestMapping("/login")
     public String login(HttpSession session) {
@@ -104,7 +107,7 @@ public class AppController {
         Member member = memberService.findByUserName(userName);
 
         // 校验密码
-        if (member == null || member.getStatus() != 0) {
+        if (member == null || member.getStatus() != 1) {
             rAttributes.addFlashAttribute("error", "用户不存在或已被禁用！");
             return "redirect:/login";
         } else if (!member.getPassword().equals(DigestUtils.sha256Hex(password))) {
@@ -112,15 +115,10 @@ public class AppController {
             return "redirect:/login";
         }
 
-//        if (webSocketHandler.isOnline(member.getId())) {
-//            //通知下线
-//            webSocketHandler.sendMessageToUser(member.getId(), new SocketMessage("logout", "").toTextMessage());
-//            webSocketHandler.offLine(member.getId());
-//        }
-
         final List<Resource> allResources;
 
         // 获取用户可用菜单,所有有权限的请求，所有资源key
+
         List<Role> roles = member.getRoles();
 
         List<Resource> menus = new ArrayList<Resource>();
@@ -322,10 +320,5 @@ public class AppController {
         attachmentService.clearAvatar(smember);
         session.setAttribute("s_member", smember);
         return new AjaxResult();
-    }
-
-    @RequestMapping("/test")
-    public void test(){
-        logger.info("test start");
     }
 }

@@ -16,6 +16,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 /**
  * 资源管理控制器
@@ -35,8 +40,26 @@ public class ResourceController {
 
     @RequestMapping("/list")
     @ResponseBody
-    public DataGrid<Resource> list() {
-        return new DataGrid<>(resourceService.findAll());
+    public DataGrid list() {
+        List<Map<String, Object>> list = new ArrayList<>();
+        List<Resource> resourceList = resourceService.findAll();
+        for(Resource resource : resourceList){
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", resource.getId());
+            map.put("resName", resource.getResName());
+            map.put("resKey", resource.getResKey());
+            map.put("resType", resource.getResType());
+            map.put("menuUrl", resource.getMenuUrl());
+            map.put("funUrls", resource.getFunUrls());
+            map.put("weight", resource.getWeight());
+            map.put("status", resource.getStatus()==1?true:false);
+            map.put("children", null);
+            map.put("_parentId", resource.getParent() != null ? resource.getParent().getId():null);
+            map.put("text", resource.getResName());
+            map.put("parent",  resource.getParent() != null ? resource.getParent().getId():null);
+            list.add(map);
+        }
+        return new DataGrid<>(list);
     }
 
     @RequestMapping("/parent/tree")

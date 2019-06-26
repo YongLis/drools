@@ -5,7 +5,10 @@ import com.github.pagehelper.PageInfo;
 import com.sh.drools.common.PageQueryRequest;
 import com.sh.drools.common.PagedResult;
 import com.sh.drools.dal.mapper.MemberMapper;
+import com.sh.drools.dal.mapper.MemberRoleMapper;
 import com.sh.drools.dal.model.Member;
+import com.sh.drools.dal.model.MemberRole;
+import com.sh.drools.dal.model.Role;
 import com.sh.drools.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +24,8 @@ import java.util.List;
 public class MemberServiceImpl implements MemberService {
     @Autowired(required = false)
     private MemberMapper memberMapper;
+    @Autowired(required = false)
+    private MemberRoleMapper memberRoleMapper;
 
     @Override
     public int countByUserName(String userName) {

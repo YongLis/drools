@@ -66,7 +66,7 @@
 
     <script>
         var MEMBER = {
-            id:${s_member.id?c},
+            id:${s_member.id},
             realName: '${s_member.realName}',
             userName: '${s_member.userName}'
         };

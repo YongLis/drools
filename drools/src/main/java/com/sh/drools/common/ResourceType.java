@@ -6,6 +6,8 @@ package com.sh.drools.common;
  * @author gson
  *
  */
-public enum ResourceType {
-	MENU, FUNCTION, BLOCK
+public class ResourceType {
+	public static String MENU="MENU";
+	public static String FUNCTION="FUNCTION";
+	public static String BLOCK="BLOCK";
 }

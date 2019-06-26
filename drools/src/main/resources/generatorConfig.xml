@@ -4,12 +4,12 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
 	<classPathEntry
-		location="D:\ipaylinks\tools\dep_tools\apache-maven-3.2.5\repository\mysql\mysql-connector-java\8.0.11\mysql-connector-java-6.0.6.jar" />
+		location="D:\ipaylinks\tools\dep_tools\apache-maven-3.2.5\repository\mysql\mysql-connector-java\8.0.13\mysql-connector-java-8.0.13.jar" />
 	<context id="MySqlTables" targetRuntime="MyBatis3">
 
 		<!--数据库链接地址账号密码 -->
 		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
-			connectionURL="jdbc:mysql://127.0.0.1:3306/mytest?useUnicode=true&amp;characterEncoding=utf8"
+			connectionURL="jdbc:mysql://127.0.0.1:3306/mytest?useUnicode=true&amp;characterEncoding=utf8&amp;serverTimezone=UTC"
 			userId="root" password="root">
 			<property name="remarksReporting" value="true"></property>
 		</jdbcConnection>
@@ -31,10 +31,10 @@
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
 		<!--生成对应表及类名 -->
-	<!--	<table tableName="crm_role" domainObjectName="Role" enableCountByExample="false"
+	<table tableName="crm_member_role" domainObjectName="MemberRole" enableCountByExample="false"
 			   enableUpdateByExample="false" enableDeleteByExample="false"
 			   enableSelectByExample="false" selectByExampleQueryId="false">
-		</table>-->
+		</table>
 
 	</context>
 </generatorConfiguration>
